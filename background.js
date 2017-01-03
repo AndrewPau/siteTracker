@@ -39,6 +39,7 @@ function incrTime() {
 }
 
 /** Updates the time of the URL in storage. */
+// TODO: Replace this with db access.
 function updateStorage(url, time) {
     if (url != null) {
         chrome.storage.sync.get("totalTime", function(totalVal) {
@@ -61,23 +62,36 @@ function startUp() {
     createListeners();
 }
 
-/** Stops the counter when all windows close. */
+/** Stops the counter when all windows are inactive. */
+function inactive() {
+    updateStorage(activeTabURL, URLtime);
+}
+
+/** Stops the counter when all windows are closed. */
 function exit() {
-    // Run when all windows close
     clearInterval(sessionID);
+    updateStorage(activeTabURL, URLtime);
 }
 
 
 /** Returns the raw domain name of the URL of the tab. */
 function getURL(url) {
-    // extract raw domain name here
+    var arr = url.split(":\/\/");
+    if (arr.length > 1) {
+        url = arr[1];
+    } else {
+        url = arr[0];
+    }
+    url = url.replace(/www\./g,'');
+    var domainName = url.split('\/')[0];
+    return domainName;
 }
 
 // Create multiple tabs at once?
 // Multiple tabs of the same website?
 
 function createListeners() {
-    // When a tab is updated
+    // When the current tab is updated.
     chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
         updateTab();
     });
@@ -87,15 +101,30 @@ function createListeners() {
         updateTab();
     });
 
-    // Activates when you focus on a new window
+    // Activates when you focus on a new window. If all windows are out of focus, timer stops.
     chrome.windows.onFocusChanged.addListener(function(windowId) {
-        updateTab();
+        if (windowId == chrome.windows.WINDOW_ID_NONE) { // All windows are out of focus
+            inactive();
+        } else {
+            updateTab();
+        }
+    });
+
+    // Activates when you close a window. If all windows are closed, program exits.
+    chrome.windows.onRemoved.addListener(function() {
+        chrome.windows.getAll(function(arr) {
+            if (arr.length == 0) {
+                exit();
+            }
+        })
     });
 }
 
 // Fired when the extension is first installed
-chrome.runtime.onInstalled.addListener(function() {
-    chrome.storage.sync.set({"totalTime" : 0}, function(){});
+chrome.runtime.onInstalled.addListener(function(details) {
+    if (details.reason == "update") {
+        chrome.storage.sync.set({"totalTime" : 0}, function(){});
+    }
 });
 
 
@@ -109,11 +138,6 @@ chrome.tabs.onCreated.addListener(function(){
 
 // Actives when a new window is created
 chrome.windows.onCreated.addListener(function() {
-
-});
-
-// Activates when you close a window
-chrome.windows.onRemoved.addListener(function() {
 
 });
 
