@@ -5,18 +5,23 @@ var mongoose = require('mongoose');
 
 var app = express();
 
+// Use JSON as data format
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended : false }));
 app.use(bodyParser.json());
 
+// Connect to MongoDB
 mongoose.connect('mongodb://localhost/mydb');
 var db = mongoose.connection();
 
-// TODO: Apply routes here
-// var route = require('routes/');
-// app.use('/route', route);
+// Set up routes
+var login = require('./routes/login');
+var userData = require('./routes/userData');
 
+app.use('/api/login', login);
+app.use('/api/userData', userData);
 
-var listener = app.listen(8888, function(){
+// Start the server
+var listener = app.listen(3000, function(){
     console.log('Listening on port ' + listener.address().port);
 });

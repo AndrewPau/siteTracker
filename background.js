@@ -12,6 +12,9 @@
 
 // When you first install the extension vs when you turn it on/off?
 
+// background.js will never stop running. Thus, we need to stop the timer variables to "stop"
+
+var userActive;
 var activeTab;
 var activeTabURL;
 var URLtime;
@@ -62,13 +65,13 @@ function startUp() {
     createListeners();
 }
 
-/** Stops the counter when all windows are inactive. */
+/** Stops the counter when all windows are open, but inactive. */
 function inactive() {
     updateStorage(activeTabURL, URLtime);
 }
 
 /** Stops the counter when all windows are closed. */
-function exit() {
+function closed() {
     clearInterval(sessionID);
     updateStorage(activeTabURL, URLtime);
 }
@@ -126,8 +129,6 @@ chrome.runtime.onInstalled.addListener(function(details) {
         chrome.storage.sync.set({"totalTime" : 0}, function(){});
     }
 });
-
-
 
 
 
