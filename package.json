@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/AndrewPau/siteTracker/issues"
   },
-  "homepage": "https://github.com/AndrewPau/siteTracker#readme"
+  "homepage": "https://github.com/AndrewPau/siteTracker#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.7.6",
+    "morgan": "^1.7.0"
+  }
 }
