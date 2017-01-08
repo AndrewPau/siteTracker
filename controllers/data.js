@@ -10,12 +10,14 @@ module.exports.updateData = function(stats) {
 // POST data/:stats
 // Use this to create new site data
 module.exports.createData = function(stats) {
+    // data.save or data.create
     // Mongoose call
 }
 
 // GET data/:stats
 // Use this to get site data
 module.exports.getData = function(username) {
+    // data.find
     // Mongoose call
 }
 

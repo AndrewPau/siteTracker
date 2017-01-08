@@ -13,15 +13,20 @@ module.exports.updatePassword = function(password) {
     // Mongoose call
 }
 
-// POST login/:username/:password
 // Use this to create a new profile
-module.exports.createUser = function(username, password) {
-    // Mongoose call
+module.exports.createUser = function(user, callback) {
+    // Check if the name is taken before creating it
+    login.findOne({username : user.username}, function(err, val) {
+        if (val) {
+            console.log(val);
+        }
+        login.create({username : user.username, password: user.pass}, callback);
+    });
 }
 
-// GET /login/:username
-module.exports.getUser = function(username) {
-    // Mongoose call
+// GET /login/:username/:password
+module.exports.getUser = function(user, pass, callback) {
+    login.findOne({username : user, password : pass}, callback)
 }
 
 // DELETE /login/:username
