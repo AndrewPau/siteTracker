@@ -32,4 +32,39 @@ router.post('/', function(req, res) {
     });
 });
 
+// DELETE api/login
+router.delete('/:username', function(req, res) {
+    login.deleteUser(res.params.username, function(err, user) {
+        if (err) {
+            res.send(err);
+            // There shouldn't be an error. Db should include signed in user
+        } else {
+            res.send("User deleted!");
+            // Redirect to login page later
+        }
+    });
+})
+
+// PUT api/login/pass
+router.put('/pass', function(req, res) {
+    login.updatePassword(req.body, function(err, user) {
+        if (err || !user) {
+            res.send("The credentials were not found. Please enter them again.");
+        } else {
+            res.send("Profile updated!");
+        }
+    });
+});
+
+// PUT api/login/user
+router.put('/user', function(req, res) {
+    login.updateUsername(req.body, function(err, user) {
+        if (err || !user) {
+            res.send(err);
+        } else {
+            res.send("Profile updated!");
+        }
+    })
+});
+
 module.exports = router;
