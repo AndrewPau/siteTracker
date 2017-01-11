@@ -1,9 +1,12 @@
 var mongoose = require('mongoose');
 
-// TODO: Fill out how you want to store all of the data
 var dataSchema = mongoose.Schema({
-    username: String,
-    totalTime: Number
+    username : String,
+    totalTime : Number,
+    sites : [{
+        site : String,
+        time : Number
+    }]
 });
 
 module.exports = mongoose.model('Data', dataSchema);

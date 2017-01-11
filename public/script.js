@@ -4,7 +4,6 @@ $(document).ready(function() {
     $("#signup").click(function() {
         var user = $("#username").val();
         var pass = $("#password").val(); // hash password later
-        // Check user and password credentials later (Not empty)
         var data = {username: user, password: pass};
         if (user == null || pass == null) {
             return;
