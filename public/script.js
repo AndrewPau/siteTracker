@@ -1,19 +1,25 @@
 $(document).ready(function() {
     // Initial signup
+    // TODO: Make checks to see that fields are  valid (i.e. not empty)
     $("#signup").click(function() {
         var user = $("#username").val();
         var pass = $("#password").val(); // hash password later
+        // Check user and password credentials later (Not empty)
         var data = {username: user, password: pass};
-        $.post('http://localhost:3000/api/login', data, function(response) {
-            document.write(response);
-        });
+        if (user == null || pass == null) {
+            return;
+        } else {
+            $.post('http://localhost:3000/api/login', data, function(response) {
+                document.write(response);
+            });
+        }
     });
     // Delete account
     $("#delete").click(function() {
         var user = $("#username").val();
         var pass = $("#password").val(); // hash password later
         $.ajax({
-            url : 'http://localhost:3000/api/login/' + user,
+            url : 'http://localhost:3000/api/login/' + user + '/' + pass,
             type : 'DELETE',
             success : function(response) {
                 document.write(response);
@@ -30,8 +36,10 @@ $(document).ready(function() {
             url : 'http://localhost:3000/api/login/user',
             type : 'PUT',
             data : data,
-            dataType : 'json',
             success : function(response) {
+                document.write(response);
+            },
+            error : function(response) {
                 document.write(response);
             }
         });
@@ -46,8 +54,10 @@ $(document).ready(function() {
             url : 'http://localhost:3000/api/login/pass',
             type : 'PUT',
             data : data,
-            dataType : 'json',
             success : function(response) {
+                document.write(response);
+            },
+            error : function(response) {
                 document.write(response);
             }
         });
