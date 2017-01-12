@@ -1,3 +1,5 @@
+// TODO: Figure out where to use this file, because to use node modules, you need to npm init and have
+// a package.json. TLDR: I need to route this in my app.js, or find out how to use bcrypt in a regular js file
 $(document).ready(function() {
     // Initial signup
     // TODO: Make checks to see that fields are  valid (i.e. not empty)
