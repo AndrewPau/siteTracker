@@ -24,7 +24,7 @@ module.exports.updateUsername = function(user, callback) {
                     error = new UserException("This username is already taken.");
                     callback(error, val);
                 } else {
-                    bcrypt.compare(user.oldPassword, val.password, function(err, res) {
+                    bcrypt.compare(user.password, val.password, function(err, res) {
                         if (!res) {
                             error = new UserException("The password is incorrect.");
                             callback(error, val);
