@@ -47,19 +47,18 @@ router.put('/user', function(req, res) {
 router.post('/', function(req, res) {
     login.createUser(req.body, function(err, user) {
         if (err) {
-            res.send("Username is taken. Please choose another.");
+            res.send(err.message);
         } else {
             res.send("New user created!");
         }
     });
 });
 
-// DELETE api/login
-router.delete('/:username/:password', function(req, res) {
-    login.deleteUser(req.params.username, req.params.password, function(err, user) {
+// POST api/login/delete (Use POST instead of delete to store credentials in request body)
+router.post('/delete', function(req, res) {
+    login.deleteUser(req.body, function(err, user) {
         if (err) {
             res.send(err.message);
-            // There shouldn't be an error. Db should include signed in user
         } else {
             res.send("User deleted!");
             // Redirect to login page later
