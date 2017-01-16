@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 var app = express();
 // TODO: Set up Mongoose to finish function calls
 // TODO: Set up Passport to authenticate API calls (Do I need a separate route for login?)
-// TODO: Set up bcrypt to hash password
 
 // Use JSON as data format
 app.use(morgan('dev'));
@@ -26,7 +25,6 @@ app.all('/*', function(req, res, next) {
 });
 
 // Connect to MongoDB
-// Use a different db later when deploying API
 mongoose.connect('mongodb://localhost/mydb');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -41,8 +39,7 @@ var data = require('./routes/data');
 app.use('/api/login', login);
 app.use('/api/data', data);
 
-// Do I need this?
-app.use(express.static('public'));
+app.use(express.static('views'));
 
 app.get('/', function(req, res) {
     res.send('Welcome to Site Tracker!');

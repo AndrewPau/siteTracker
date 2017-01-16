@@ -59,14 +59,4 @@ $(document).ready(function() {
             }
         });
     });
-    // Login
-    $("#login").click(function() {
-        var username = $("#username").val();
-        var password = $("#password").val();
-        var data = {username : username, password : password}
-        $.post('http://localhost:3000/api/login/delete', data, function(response) {
-            document.write(response);
-        });
-    });
-    });
 });
