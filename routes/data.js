@@ -34,11 +34,19 @@ router.post('/', function(req, res) {
 // PUT api/data/
 router.put('/', function(req, res) {
     var newData = req.body;
+    data.updateData(newData, function(err, data) {
+        if (err) {
+            res.send(err.message);
+        } else {
+            res.send("User statistics updated!");
+        }
+    });
 });
 
 // DELETE api/data/:username
 router.delete('/:username', function(req, res) {
     var username = req.params.username;
+    data.deleteData(username, callback);
 });
 
 module.exports = router;
