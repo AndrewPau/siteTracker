@@ -39,12 +39,17 @@ module.exports.updateData = function(stats, callback) {
 // POST data/:stats
 // Use this to initialize a new user
 module.exports.createData = function(stats, callback) {
-    // data.save or data.create
-    // Mongoose call
+    data.create({username : stats.username, totalTime : 0, sites : []}, callback);
 }
 
 // DELETE data/:username
 // Use this to delete all of a user's data
 module.exports.deleteData = function(username, callback) {
-    // Mongoose call
+    data.remove({username : username}, callback);
+}
+
+// Error message to throw when credentials are incorrect
+function UserException(message) {
+    this.message = message;
+    this.name = "UserException";
 }
